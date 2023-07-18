@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+		http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <property name="schemaName" value="generated_app"></property>
+    <property name="author=" value="db-designer"></property>
+    <changeSet id="v1-01-01" author="${author}">
+    
+ <createTable schemaName="${schemaName}" tableName="ShoppingCart">
+	<column name="CartId" type="SERIAL" autoIncrement="true" >
+        <constraints nullable="false" primaryKey="true"/>
+    </column>
+     <column name="Quantity" type="INTEGER" />
+    
+     <column name="Amount" type="DECIMAL" />
+    
+ 	
+</createTable>
+ <createTable schemaName="${schemaName}" tableName="UserProfile">
+    <column name="UserName" type="VARCHAR(250)" />
+    
+     <column name="Email" type="VARCHAR(250)" />
+    
+ 	<column name="UserId" type="SERIAL" autoIncrement="true" >
+        <constraints nullable="false" primaryKey="true"/>
+    </column>
+ 	
+</createTable>
+ <createTable schemaName="${schemaName}" tableName="ProductInStock">
+	<column name="ProductId" type="BIGINT" autoIncrement="true" >
+        <constraints nullable="false" primaryKey="true"/>
+    </column>
+     <column name="ProductName" type="VARCHAR(250)" />
+    
+     <column name="IconName" type="VARCHAR(250)" />
+    
+     <column name="ProductDescription" type="VARCHAR(250)" />
+    
+ 	
+</createTable>
+	
+  <createTable schemaName="${schemaName}" tableName="ShoppingCartProducts">
+	<column name="Id" type="SERIAL" autoIncrement="true">
+		<constraints primaryKey="true" nullable="false"/>
+	</column>
+	<column name="CartId" type="INTEGER" />
+	<column name="ProductId" type="BIGINT" />
+</createTable>
+
+ 	<addForeignKeyConstraint baseTableName="ShoppingCartProducts" baseTableSchemaName="${schemaName}"  baseColumnNames="CartId" constraintName="ProductInStock_CartId_fk"
+	                                  referencedTableName="ShoppingCart" referencedTableSchemaName="${schemaName}" referencedColumnNames="CartId"/>
+	                                  
+	<addForeignKeyConstraint baseTableName="ShoppingCartProducts" baseTableSchemaName="${schemaName}"  baseColumnNames="ProductId" constraintName="ProductInStock_ProductId_fk"
+	                                  referencedTableName="ProductInStock" referencedTableSchemaName="${schemaName}" referencedColumnNames="ProductId"/>
+ 
+	
+ 	<addColumn tableName="ShoppingCart" schemaName="${schemaName}">
+	    <column name="ShoppingCartUser" type="INTEGER"/>
+	</addColumn>
+	<addForeignKeyConstraint baseTableName="ShoppingCart" baseColumnNames="ShoppingCartUser" baseTableSchemaName="${schemaName}" constraintName="ShoppingCart_User_fk" referencedTableName="UserProfile"
+	                                 referencedColumnNames="UserId" referencedTableSchemaName="${schemaName}"/>
+ 
+
+ 
+ 
+	    </changeSet>
+</databaseChangeLog>
